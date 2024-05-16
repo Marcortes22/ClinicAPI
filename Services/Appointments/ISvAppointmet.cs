@@ -7,13 +7,13 @@ using Entities;
 
 namespace Services.Appointments
 {
-    internal interface ISvAppointmet
+    public interface ISvAppointmet
     {
         public List<Appointment> getAllAppointments();
 
         public Appointment getAppointmentById(int appointmentId);
 
-        public Appointment getAppointmentByUser(int userId);
+        public List<Appointment> getAppointmentsByUser(int userId);
 
         public bool validateCancelAppointmet(int appointmentId);
 

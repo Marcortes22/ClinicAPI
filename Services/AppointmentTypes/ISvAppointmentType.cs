@@ -7,7 +7,7 @@ using Entities;
 
 namespace Services.AppointmentTypes
 {
-    internal interface ISvAppointmentType
+    public interface ISvAppointmentType
     {
         public List<AppointmentType> getAllAppointmentTypes();
 

@@ -9,8 +9,8 @@ namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    [Authorize(Roles = "ADMIN")]
+   // [Authorize]
+   // [Authorize(Roles = "ADMIN")]
     public class ClinicBranchController : ControllerBase
     {
         private ISvClinicBranches _svClinicBranch;

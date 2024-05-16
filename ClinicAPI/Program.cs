@@ -7,7 +7,8 @@ using Services.Clinics;
 using Services.ClinicBranches;
 using Services.Roles;
 using Services.UserRoles;
-
+using Services.Appointments;
+using Services.AppointmentTypes;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +18,8 @@ builder.Services.AddScoped<ISvClinics, SvClinics>();
 builder.Services.AddScoped<ISvRoles, SvRoles>();
 builder.Services.AddScoped<ISvUserRoles, SvUserRoles>();
 builder.Services.AddScoped<ISvClinicBranches, SvClinicBranches>();
+builder.Services.AddScoped<ISvAppointmet, SvAppointment>();
+builder.Services.AddScoped<ISvAppointmentType, SvAppointmentType>();
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(x =>

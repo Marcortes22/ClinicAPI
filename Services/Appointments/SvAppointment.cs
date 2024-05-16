@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Services.MyDbContext;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace Services.Appointments
 
         public List<Appointment> getAllAppointments()
         {
-            return myDbContext.appointments.ToList();
+            return myDbContext.appointments.Include(x=> x.user).ToList();
         }
 
         public Appointment getAppointmentById(int appointmentId)
@@ -68,9 +69,9 @@ namespace Services.Appointments
             return myDbContext.appointments.Find(appointmentId);
         }
 
-        public Appointment getAppointmentByUser(int userId)
+        public  List<Appointment> getAppointmentsByUser(int userId)
         {
-            throw new NotImplementedException();
+            return myDbContext.appointments.Include(x=> x.user).Where(x => x.userId == userId).ToList();
         }
 
         public bool validateAppointmetDay(DateOnly date)

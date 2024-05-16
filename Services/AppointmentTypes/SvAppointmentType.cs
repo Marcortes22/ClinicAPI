@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.AppointmentTypes
 {
-    internal class SvAppointmentType : ISvAppointmentType
+    public class SvAppointmentType : ISvAppointmentType
     {
         private MyContext myDbContext = default!;
         public SvAppointmentType()
