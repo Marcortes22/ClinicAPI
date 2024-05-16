@@ -12,8 +12,9 @@ namespace ClinicAPI
         {
             var claims = new List<Claim> {
         new Claim(ClaimTypes.Name, user.Name),
+         new Claim(ClaimTypes.Email, user.Email),
          new Claim(ClaimTypes.Role, role),
-          new Claim(ClaimTypes.Name, user.Name),
+         
 
 
     };

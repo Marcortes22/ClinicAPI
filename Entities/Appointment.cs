@@ -16,12 +16,13 @@ namespace Entities
         public bool Status { get; set; }
 
         public int userId { get; set; }
-        public User user { get; set; }
+        public User? user { get; set; }
 
         public int clinicBranchId { get; set; }
-        public ClinicBranch clinicBranch { get; set; }
+        public ClinicBranch? clinicBranch { get; set; }
 
-        public AppointmentType appointmentType { get; set; }
+        public int appointmentId { get; set; }
+        public AppointmentType? appointmentType { get; set; }
 
 
     }

@@ -168,10 +168,7 @@ namespace Services.Migrations
             modelBuilder.Entity("Entities.User", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CellPhone")
                         .IsRequired()
@@ -193,7 +190,7 @@ namespace Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("clinicId")
+                    b.Property<int>("clinicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -223,7 +220,7 @@ namespace Services.Migrations
                     b.HasOne("Entities.ClinicBranch", "clinicBranch")
                         .WithMany("appointment")
                         .HasForeignKey("clinicBranchId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.User", "user")
@@ -242,7 +239,7 @@ namespace Services.Migrations
                     b.HasOne("Entities.Appointment", "appointment")
                         .WithOne("appointmentType")
                         .HasForeignKey("Entities.AppointmentType", "appointmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("appointment");
@@ -264,7 +261,8 @@ namespace Services.Migrations
                     b.HasOne("Entities.Clinic", "clinic")
                         .WithMany("users")
                         .HasForeignKey("clinicId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("clinic");
                 });

@@ -14,7 +14,7 @@ namespace Entities
      public string Address { get; set; }
      public string Email { get; set; }
      public int clinicId { get; set; }
-     public Clinic clinic { get; set; }
-        public List<Appointment> appointment { get; set; } = [];
+     public Clinic? clinic { get; set; }
+     public List<Appointment>? appointment { get; set; } = [];
     }   
 }

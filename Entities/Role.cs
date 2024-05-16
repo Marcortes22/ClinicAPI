@@ -12,6 +12,6 @@ namespace Entities
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public List<User> users { get; set; } = [];
+        public List<User>? users { get; set; } = [];
     }
 }

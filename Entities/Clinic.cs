@@ -16,9 +16,9 @@ namespace Entities
      public string Address { get; set; }
      public string Email { get; set; }
 
-     public List<ClinicBranch> clinicBranch { get; set; } = [];
+     public List<ClinicBranch>? clinicBranch { get; set; } = [];
 
-        public List<User> users { get; set; } = [];
+     public List<User>? users { get; set; } = [];
 
     }
 }

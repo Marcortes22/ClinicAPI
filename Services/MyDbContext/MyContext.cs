@@ -34,11 +34,17 @@ namespace Services.MyDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<User>()
+            .Property(user => user.Id)
+            .ValueGeneratedNever();
+
             modelBuilder.Entity<Clinic>()
                 .HasMany(clinic => clinic.clinicBranch)
                 .WithOne(clinicBranch => clinicBranch.clinic)
                 .HasForeignKey(clinicBranch => clinicBranch.clinicId)
-                 .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
+
 
 
 
@@ -46,29 +52,32 @@ namespace Services.MyDbContext
                .HasMany(clinic => clinic.users)
                .WithOne(users => users.clinic)
                .HasForeignKey(users => users.clinicId)
-                .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Restrict);
+
 
 
             modelBuilder.Entity<User>()
+
              .HasMany(user => user.appointment)
              .WithOne(appointment => appointment.user)
              .HasForeignKey(appointment => appointment.userId)
-              .OnDelete(DeleteBehavior.Restrict); 
+             .OnDelete(DeleteBehavior.Restrict);
+
+
 
 
 
             modelBuilder.Entity<ClinicBranch>()
              .HasMany(clinicBranch => clinicBranch.appointment)
              .WithOne(appointment => appointment.clinicBranch)
-             .HasForeignKey(appointment => appointment.clinicBranchId)
-              .OnDelete(DeleteBehavior.Restrict);
+             .HasForeignKey(appointment => appointment.clinicBranchId);
+
 
             modelBuilder.Entity<Appointment>()
             .HasOne(appointment => appointment.appointmentType)
             .WithOne(appointmenttype => appointmenttype.appointment)
-            .HasForeignKey<AppointmentType>(appointmenttype => appointmenttype.appointmentId)
-             .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
+            .HasForeignKey<AppointmentType>(appointmenttype => appointmenttype.appointmentId);
+         
 
             modelBuilder.Entity<User>()
          .HasMany(e => e.roles)
