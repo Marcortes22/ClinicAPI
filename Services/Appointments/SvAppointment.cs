@@ -61,7 +61,7 @@ namespace Services.Appointments
 
         public List<Appointment> getAllAppointments()
         {
-            return myDbContext.appointments.Include(x=> x.user).ToList();
+            return myDbContext.appointments.Include(x=> x.user).Include(y=> y.appointmentType).Include(x=> x.clinicBranch).ToList();
         }
 
         public Appointment getAppointmentById(int appointmentId)

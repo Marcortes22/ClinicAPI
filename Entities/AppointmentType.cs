@@ -11,8 +11,6 @@ namespace Entities
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int? appointmentId { get; set; }
-
         public Appointment? appointment { get; set; }
     }
 }

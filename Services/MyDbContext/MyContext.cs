@@ -73,10 +73,10 @@ namespace Services.MyDbContext
              .HasForeignKey(appointment => appointment.clinicBranchId);
 
 
-            modelBuilder.Entity<Appointment>()
-            .HasOne(appointment => appointment.appointmentType)
-            .WithOne(appointmenttype => appointmenttype.appointment)
-            .HasForeignKey<AppointmentType>(appointmenttype => appointmenttype.appointmentId);
+            modelBuilder.Entity<AppointmentType>()
+            .HasOne(appointmentType => appointmentType.appointment)
+            .WithOne(appointment => appointment.appointmentType)
+            .HasForeignKey<Appointment>(appointment => appointment.appointmentTypeId);
          
 
             modelBuilder.Entity<User>()

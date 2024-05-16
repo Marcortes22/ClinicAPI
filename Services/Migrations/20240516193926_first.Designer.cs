@@ -12,8 +12,8 @@ using Services.MyDbContext;
 namespace Services.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240516174230_AddBlogCreatedTimestamp")]
-    partial class AddBlogCreatedTimestamp
+    [Migration("20240516193926_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,9 @@ namespace Services.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("appointmentTypeId")
+                        .IsUnique();
+
                     b.HasIndex("clinicBranchId");
 
                     b.HasIndex("userId");
@@ -72,14 +75,7 @@ namespace Services.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("appointmentId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("appointmentId")
-                        .IsUnique()
-                        .HasFilter("[appointmentId] IS NOT NULL");
 
                     b.ToTable("appointmentTypes");
                 });
@@ -224,6 +220,12 @@ namespace Services.Migrations
 
             modelBuilder.Entity("Entities.Appointment", b =>
                 {
+                    b.HasOne("Entities.AppointmentType", "appointmentType")
+                        .WithOne("appointment")
+                        .HasForeignKey("Entities.Appointment", "appointmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Entities.ClinicBranch", "clinicBranch")
                         .WithMany("appointment")
                         .HasForeignKey("clinicBranchId")
@@ -236,18 +238,11 @@ namespace Services.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("appointmentType");
+
                     b.Navigation("clinicBranch");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Entities.AppointmentType", b =>
-                {
-                    b.HasOne("Entities.Appointment", "appointment")
-                        .WithOne("appointmentType")
-                        .HasForeignKey("Entities.AppointmentType", "appointmentId");
-
-                    b.Navigation("appointment");
                 });
 
             modelBuilder.Entity("Entities.ClinicBranch", b =>
@@ -287,9 +282,9 @@ namespace Services.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Appointment", b =>
+            modelBuilder.Entity("Entities.AppointmentType", b =>
                 {
-                    b.Navigation("appointmentType");
+                    b.Navigation("appointment");
                 });
 
             modelBuilder.Entity("Entities.Clinic", b =>

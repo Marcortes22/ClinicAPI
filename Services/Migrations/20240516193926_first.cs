@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Services.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "appointmentTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_appointmentTypes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "clinics",
                 columns: table => new
@@ -98,11 +111,18 @@ namespace Services.Migrations
                     Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     userId = table.Column<int>(type: "int", nullable: false),
-                    clinicBranchId = table.Column<int>(type: "int", nullable: false)
+                    clinicBranchId = table.Column<int>(type: "int", nullable: false),
+                    appointmentTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_appointments_appointmentTypes_appointmentTypeId",
+                        column: x => x.appointmentTypeId,
+                        principalTable: "appointmentTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_appointments_clinicBranches_clinicBranchId",
                         column: x => x.clinicBranchId,
@@ -141,25 +161,11 @@ namespace Services.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "appointmentTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    appointmentId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_appointmentTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_appointmentTypes_appointments_appointmentId",
-                        column: x => x.appointmentId,
-                        principalTable: "appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_appointments_appointmentTypeId",
+                table: "appointments",
+                column: "appointmentTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_appointments_clinicBranchId",
@@ -170,12 +176,6 @@ namespace Services.Migrations
                 name: "IX_appointments_userId",
                 table: "appointments",
                 column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_appointmentTypes_appointmentId",
-                table: "appointmentTypes",
-                column: "appointmentId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_clinicBranches_clinicId",
@@ -191,25 +191,30 @@ namespace Services.Migrations
                 name: "IX_users_clinicId",
                 table: "users",
                 column: "clinicId");
+
+            DataSeeder.SeedClinic(migrationBuilder);
+            DataSeeder.SeedClinicBranches(migrationBuilder);
+            DataSeeder.SeedRoles(migrationBuilder);
+            DataSeeder.SeedAppointmentsTypes(migrationBuilder);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "appointmentTypes");
+                name: "appointments");
 
             migrationBuilder.DropTable(
                 name: "userRoles");
 
             migrationBuilder.DropTable(
-                name: "appointments");
-
-            migrationBuilder.DropTable(
-                name: "roles");
+                name: "appointmentTypes");
 
             migrationBuilder.DropTable(
                 name: "clinicBranches");
+
+            migrationBuilder.DropTable(
+                name: "roles");
 
             migrationBuilder.DropTable(
                 name: "users");

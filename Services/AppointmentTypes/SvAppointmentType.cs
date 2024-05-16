@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Services.MyDbContext;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Services.AppointmentTypes
 
         public List<AppointmentType> getAllAppointmentTypes()
         {
-            return myDbContext.appointmentTypes.ToList();
+            return myDbContext.appointmentTypes.Include(c=> c.appointment).ToList();
         }
     }
 }
