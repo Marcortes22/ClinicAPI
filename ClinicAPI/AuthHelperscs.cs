@@ -11,9 +11,9 @@ namespace ClinicAPI
         public static string GenerateJWTToken(User user, string role = "USER")
         {
             var claims = new List<Claim> {
-         new Claim(ClaimTypes.Name, user.Name),
-         new Claim(ClaimTypes.Email, user.Email),
-         new Claim(ClaimTypes.Role, role),
+                new Claim("Name", user.Name),
+                new Claim("Email", user.Email),
+                new Claim("Role", role),
          
 
 

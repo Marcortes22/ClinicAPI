@@ -50,12 +50,15 @@ namespace ClinicAPI.Controllers
                 if (_svUserRole.verifyAdminRole(user.Id))
                 {
                     var token = AuthHelperscs.GenerateJWTToken(user, "ADMIN");
-                    return Ok(token);
+                    var tokenObject = new { access_token = token };
+
+                    return Ok(tokenObject);
                 }
                 else
                 {
                     var token = AuthHelperscs.GenerateJWTToken(user, "USER");
-                    return Ok(token);
+                    var tokenObject = new { access_token = token };
+                    return Ok(tokenObject);
                 }
 
              
@@ -71,7 +74,7 @@ namespace ClinicAPI.Controllers
         [HttpPost("register")]
         public User Register([FromBody] User user)
         {
-        _svUser.AddUser(user);
+            _svUser.AddUser(user);
             _svUserRole.AddUserRole(new UserRole
             {
                 UserId = user.Id,
@@ -80,19 +83,19 @@ namespace ClinicAPI.Controllers
             return user;
 
         }
-        /*
-        [HttpPost("AddAdminRole")]
-        [Authorize]
-        [Authorize(Roles = "ADMIN")]
-        public void userAddAdminRole([FromBody] User user)
-        {
-            _svUserRole.AddUserRole(new UserRole
-            {
-                UserId = user.Id,
-                RoleId = 1
-            }) ;
 
-        }
-        */
+        //[HttpPost("AddAdminRole")]
+        //[Authorize]
+        //[Authorize(Roles = "ADMIN")]
+        //public void userAddAdminRole([FromBody] User user)
+        //{
+        //    _svUserRole.AddUserRole(new UserRole
+        //    {
+        //        UserId = user.Id,
+        //        RoleId = 1
+        //    });
+
+        //}
+
     }
 }
