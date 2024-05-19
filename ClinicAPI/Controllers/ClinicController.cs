@@ -8,7 +8,7 @@ namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ClinicController : ControllerBase
     {
 
@@ -36,7 +36,7 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost]
-       // [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public Clinic Register([FromBody] Clinic clinic)
         {
             return _svClinic.AddClinic(clinic);

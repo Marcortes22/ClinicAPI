@@ -22,9 +22,9 @@ namespace ClinicAPI.Controllers
         }
 
         [HttpPost]
-        public void AddAppointment([FromBody] AppointmentType type)
+        public AppointmentType AddAppointment([FromBody] AppointmentType type)
         {
-            _svAppointmetType.addAppointmentType(type);
+            return _svAppointmetType.addAppointmentType(type);
 
         }
     }

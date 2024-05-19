@@ -66,12 +66,13 @@ namespace Services.Appointments
 
         public Appointment getAppointmentById(int appointmentId)
         {
-            return myDbContext.appointments.Find(appointmentId);
+            //  return myDbContext.appointments.Find(appointmentId);
+            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
         }
 
         public  List<Appointment> getAppointmentsByUser(int userId)
         {
-            return myDbContext.appointments.Include(x=> x.user).Where(x => x.userId == userId).ToList();
+            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
         }
 
         public bool validateAppointmetDay(DateOnly date)

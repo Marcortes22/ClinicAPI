@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Appointments;
@@ -8,6 +9,8 @@ namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    
     public class AppointmentController : ControllerBase
     {
 
@@ -19,12 +22,14 @@ namespace ClinicAPI.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public IEnumerable<Appointment> GetAllAppointments()
         {
             return _svAppointmet.getAllAppointments();
         }
 
-        [HttpGet("id/{AppointmentId}")] 
+        [HttpGet("id/{AppointmentId}")]
+        [Authorize(Roles = "ADMIN")]
         public Appointment GetAppointmentById(int AppointmentId)
         {
             return _svAppointmet.getAppointmentById(AppointmentId);
@@ -38,9 +43,9 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost("register")]
-        public void Register([FromBody] Appointment appointment)
+        public Appointment Register([FromBody] Appointment appointment)
         {
-            _svAppointmet.addAppointment(appointment);
+           return _svAppointmet.addAppointment(appointment);
            
         }
     }
