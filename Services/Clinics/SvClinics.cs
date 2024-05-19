@@ -23,20 +23,20 @@ namespace Services.Clinics
             return clinic;
         }
 
-        public Clinic GetClinicById(int id)
+        public Clinic GetClinicBranches()
         {
-            return myDbContext.clinics.Include(x => x.clinicBranch).FirstOrDefault(x => x.Id == id);
+            return myDbContext.clinics.Include(x => x.clinicBranch).FirstOrDefault(x => x.Id == 1);
         }
 
-        public Clinic GetUsersFromClinic(int id)
+        public Clinic GetClinicUsers()
         {
-            return myDbContext.clinics.Include(x => x.users).SingleOrDefault(x => x.Id == id);
+            return myDbContext.clinics.Include(x => x.users).SingleOrDefault(x => x.Id == 1);
 
         }
 
-        public Clinic UpdateClinic(int id, Clinic clinic)
+        public Clinic UpdateClinic(Clinic clinic)
         {
-            Clinic clinictToUpdate = myDbContext.clinics.Find(id);
+            Clinic clinictToUpdate = myDbContext.clinics.Find(1);
             if (clinictToUpdate != null)
             {
                 clinictToUpdate.Name = clinic.Name;

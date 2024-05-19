@@ -18,7 +18,7 @@ namespace Entities
      public string CellPhone { get; set;}
      public string UserName{get; set;}
      public string Password{ get; set; }
-     public int clinicId { get; set; } = 0;
+     public int clinicId { get; set; } = 1 ;
      public Clinic? clinic { get; set; }
      public List<Appointment>? appointment { get; set;} = [];
 

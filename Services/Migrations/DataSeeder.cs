@@ -44,6 +44,17 @@ namespace Services.Migrations
 
         }
 
+        public static void SeedUsers(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql("INSERT INTO users (Id, Name, Email, CellPhone, UserName, Password, clinicId) VALUES ('504420108','Marco','marcortes.stiven@gamil.com', '8848485', 'marcortes20', '1234', '1')");
+      
+        }
+
+        public static void SeedUserRoles(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql("INSERT INTO userRoles (RoleId, UserId ) VALUES ('1','504420108')");
+
+        }
 
     }
 }

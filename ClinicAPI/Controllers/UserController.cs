@@ -41,20 +41,21 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User user)
+        public IActionResult Login([FromBody] LoginRequest login)
         {
-            if (_svUser.validateUser(user))
+            User user = _svUser.validateUser(login.UserName, login.Password);
+            if (user != null)
             {
 
                 if (_svUserRole.verifyAdminRole(user.Id))
                 {
                     var token = AuthHelperscs.GenerateJWTToken(user, "ADMIN");
-                    return Ok( "admin");
+                    return Ok(token);
                 }
                 else
                 {
                     var token = AuthHelperscs.GenerateJWTToken(user, "USER");
-                    return Ok("no admin " + user.Id);
+                    return Ok(token);
                 }
 
              
@@ -68,7 +69,7 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost("register")]
-        public void Register([FromBody] User user)
+        public User Register([FromBody] User user)
         {
         _svUser.AddUser(user);
             _svUserRole.AddUserRole(new UserRole
@@ -76,9 +77,10 @@ namespace ClinicAPI.Controllers
                 UserId = user.Id,
                 RoleId = 2
             });
+            return user;
 
         }
-
+        /*
         [HttpPost("AddAdminRole")]
         [Authorize]
         [Authorize(Roles = "ADMIN")]
@@ -91,5 +93,6 @@ namespace ClinicAPI.Controllers
             }) ;
 
         }
+        */
     }
 }

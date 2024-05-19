@@ -69,20 +69,20 @@ namespace Services.Users
             return myDbContext.users.Include(x => x.roles).Where(i => i.Id == id).ToList();
         }
 
-        public bool validateUser(User user)
+        public User validateUser(string userName, string password)
         {
             
-            User existingUser = myDbContext.users.FirstOrDefault(u => u.UserName == user.UserName);
+            User existingUser = myDbContext.users.FirstOrDefault(u => u.UserName == userName);
 
             if (existingUser != null)
             {
              
-                if (existingUser.Password == user.Password)
+                if (existingUser.Password == password)
                 {
-                    return true;
+                    return existingUser;
                 }
             }
-            return false;
+            return null;
         }
     }
 }

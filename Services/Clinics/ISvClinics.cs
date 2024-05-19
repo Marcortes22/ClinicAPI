@@ -11,10 +11,10 @@ namespace Services.Clinics
     {
         public Clinic AddClinic(Clinic clinic);
 
-        public Clinic GetClinicById(int id);
+        public Clinic GetClinicBranches();
 
-        public Clinic UpdateClinic(int id, Clinic clinic);
+        public Clinic UpdateClinic(Clinic clinic);
 
-        public Clinic GetUsersFromClinic(int id);
+        public Clinic GetClinicUsers();
     }
 }

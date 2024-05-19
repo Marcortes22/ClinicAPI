@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Services.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -196,6 +196,8 @@ namespace Services.Migrations
             DataSeeder.SeedClinicBranches(migrationBuilder);
             DataSeeder.SeedRoles(migrationBuilder);
             DataSeeder.SeedAppointmentsTypes(migrationBuilder);
+            DataSeeder.SeedUsers(migrationBuilder);
+            DataSeeder.SeedUserRoles(migrationBuilder);
         }
 
         /// <inheritdoc />

@@ -20,35 +20,35 @@ namespace ClinicAPI.Controllers
 
       
        
-        [HttpGet("{id}/branches")]
-        public Clinic Get(int id)
+        [HttpGet("branches")]
+        public Clinic Get()
         {
-            return _svClinic.GetClinicById(id);
+            return _svClinic.GetClinicBranches();
         }
 
 
-        [HttpGet("{id}/users")]
+        [HttpGet("users")]
         [Authorize(Roles = "ADMIN")]
-        public Clinic GetUsers(int id)
+        public Clinic GetUsers()
         {
-            return _svClinic.GetUsersFromClinic(id);
+            return _svClinic.GetClinicUsers();
         }
 
 
         [HttpPost]
        // [Authorize(Roles = "ADMIN")]
-        public void Register([FromBody] Clinic clinic)
+        public Clinic Register([FromBody] Clinic clinic)
         {
-            _svClinic.AddClinic(clinic);
+            return _svClinic.AddClinic(clinic);
 
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "ADMIN")]
-        public void Put(int id, [FromBody] Clinic clinic)
+        public Clinic Put( [FromBody] Clinic clinic)
         {
-            _svClinic.UpdateClinic(id, new Clinic
+           return _svClinic.UpdateClinic( new Clinic
             {
                 Id = clinic.Id,
                 Name = clinic.Name,

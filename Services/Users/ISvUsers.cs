@@ -16,7 +16,7 @@ namespace Services.Users
         public User AddUser(User User);
         public User UpdateUser(int id, User user);
         public void DeleteUser(int id);
-        public bool validateUser(User user);
+        public User validateUser(string userName, string password);
 
         public List<User> getUserRoles(int id);
 
