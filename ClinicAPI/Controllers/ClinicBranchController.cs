@@ -27,9 +27,9 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost]
-        public void Register([FromBody] ClinicBranch branch)
+        public ClinicBranch Register([FromBody] ClinicBranch branch)
         {
-            _svClinicBranch.AddClinicBranch(branch);
+            return _svClinicBranch.AddClinicBranch(branch);
 
         }
     }

@@ -27,9 +27,9 @@ namespace ClinicAPI.Controllers
         }
 
         [HttpPost()]
-        public void Register([FromBody] Role role)
+        public Role Register([FromBody] Role role)
         {
-            _svRole.addRole(role);
+            return _svRole.addRole(role);
 
         }
     }
