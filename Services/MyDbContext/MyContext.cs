@@ -74,9 +74,9 @@ namespace Services.MyDbContext
 
 
             modelBuilder.Entity<AppointmentType>()
-            .HasOne(appointmentType => appointmentType.appointment)
+            .HasMany(appointmentType => appointmentType.appointments)
             .WithOne(appointment => appointment.appointmentType)
-            .HasForeignKey<Appointment>(appointment => appointment.appointmentTypeId);
+            .HasForeignKey(appointment => appointment.appointmentTypeId);
          
 
             modelBuilder.Entity<User>()

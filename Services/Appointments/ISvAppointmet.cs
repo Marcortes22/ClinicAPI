@@ -17,7 +17,7 @@ namespace Services.Appointments
 
         public bool validateCancelAppointmet(int appointmentId);
 
-        public bool validateAppointmetDay(DateOnly date);
+        public bool validateAppointmetDay(DateOnly date, int userId);
 
         public Appointment addAppointment(Appointment appointment);
 

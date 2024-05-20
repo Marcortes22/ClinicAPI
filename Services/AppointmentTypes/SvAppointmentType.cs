@@ -25,7 +25,7 @@ namespace Services.AppointmentTypes
 
         public List<AppointmentType> getAllAppointmentTypes()
         {
-            return myDbContext.appointmentTypes.Include(c=> c.appointment).ToList();
+            return myDbContext.appointmentTypes.Include(c=> c.appointments).ToList();
         }
     }
 }

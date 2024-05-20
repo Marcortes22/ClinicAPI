@@ -8,8 +8,8 @@ using Services.ClinicBranches;
 namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
+   // [ApiController]
+   // [Authorize]
     
     public class AppointmentController : ControllerBase
     {

@@ -12,7 +12,7 @@ using Services.MyDbContext;
 namespace Services.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240519012630_InitialCreate")]
+    [Migration("20240520195210_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -53,8 +53,7 @@ namespace Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("appointmentTypeId")
-                        .IsUnique();
+                    b.HasIndex("appointmentTypeId");
 
                     b.HasIndex("clinicBranchId");
 
@@ -221,8 +220,8 @@ namespace Services.Migrations
             modelBuilder.Entity("Entities.Appointment", b =>
                 {
                     b.HasOne("Entities.AppointmentType", "appointmentType")
-                        .WithOne("appointment")
-                        .HasForeignKey("Entities.Appointment", "appointmentTypeId")
+                        .WithMany("appointments")
+                        .HasForeignKey("appointmentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -284,7 +283,7 @@ namespace Services.Migrations
 
             modelBuilder.Entity("Entities.AppointmentType", b =>
                 {
-                    b.Navigation("appointment");
+                    b.Navigation("appointments");
                 });
 
             modelBuilder.Entity("Entities.Clinic", b =>

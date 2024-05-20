@@ -164,8 +164,7 @@ namespace Services.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_appointments_appointmentTypeId",
                 table: "appointments",
-                column: "appointmentTypeId",
-                unique: true);
+                column: "appointmentTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_appointments_clinicBranchId",
@@ -191,7 +190,6 @@ namespace Services.Migrations
                 name: "IX_users_clinicId",
                 table: "users",
                 column: "clinicId");
-
             DataSeeder.SeedClinic(migrationBuilder);
             DataSeeder.SeedClinicBranches(migrationBuilder);
             DataSeeder.SeedRoles(migrationBuilder);

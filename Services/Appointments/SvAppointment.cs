@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Services.MyDbContext;
+using System.Data.SqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Services.Appointments
         }
         public Appointment addAppointment(Appointment appointment)
         {
-            if (validateAppointmetDay(appointment.Date))
+            if (validateAppointmetDay(appointment.Date, appointment.userId))
             {
 
                 myDbContext.appointments.Add(appointment);
@@ -75,9 +76,19 @@ namespace Services.Appointments
             return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
         }
 
-        public bool validateAppointmetDay(DateOnly date)
+        public bool validateAppointmetDay(DateOnly date, int userId)
         {
-            return true;
+            Appointment appointmentAtSameDay = myDbContext.appointments.Where(x=>x.Date == date).FirstOrDefault(x=> x.userId == userId);
+            
+            if (appointmentAtSameDay == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+      
         }
 
         public bool validateCancelAppointmet(int appointmentId)
