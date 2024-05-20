@@ -45,8 +45,15 @@ namespace ClinicAPI.Controllers
         [HttpPost("register")]
         public Appointment Register([FromBody] Appointment appointment)
         {
-           return _svAppointmet.addAppointment(appointment);
+            return _svAppointmet.addAppointment(appointment);
            
+        }
+
+        [HttpDelete("{appointmentId}")]
+        public void Cancel(int appointmentId)
+        {
+             _svAppointmet.DeleteAppointment(appointmentId);
+
         }
     }
 }

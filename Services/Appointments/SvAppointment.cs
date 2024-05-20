@@ -37,15 +37,20 @@ namespace Services.Appointments
 
         public void DeleteAppointment(int appointmentId)
         {
-            if (validateCancelAppointmet(appointmentId))
-            {
+           
                 Appointment appointmentToCancel = myDbContext.appointments.Find(appointmentId);
 
                 if (appointmentToCancel != null)
                 {
-                    appointmentToCancel.Status = false;
-                    myDbContext.appointments.Update(appointmentToCancel);
-                    myDbContext.SaveChanges();
+                    if (validateCancelAppointmet(appointmentToCancel)) {
+                        appointmentToCancel.Status = false;
+                        myDbContext.appointments.Update(appointmentToCancel);
+                        myDbContext.SaveChanges();
+                      }
+                    else
+                      {
+                      throw new ArgumentException("Appointments just cancel 24 hours before");
+                      }
 
                 }
                 else
@@ -53,27 +58,27 @@ namespace Services.Appointments
                     throw new ArgumentException("Appointment does'nt found");
                 }
 
-            }
-            else
-            {
-                throw new ArgumentException("Appointments just cancel 24 hours before");
-            }
+            
+           
         }
 
         public List<Appointment> getAllAppointments()
         {
-            return myDbContext.appointments.Include(x=> x.user).Include(y=> y.appointmentType).Include(x=> x.clinicBranch).ToList();
+            //return myDbContext.appointments.Include(x=> x.user).Include(y=> y.appointmentType).Include(x=> x.clinicBranch).ToList();
+            return myDbContext.appointments.ToList();
+             
         }
 
         public Appointment getAppointmentById(int appointmentId)
         {
-            //  return myDbContext.appointments.Find(appointmentId);
-            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
+             return myDbContext.appointments.Find(appointmentId);
+           // return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
         }
 
         public  List<Appointment> getAppointmentsByUser(int userId)
         {
-            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
+            //  return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
+            return myDbContext.appointments.Where(x => x.userId == userId).ToList();
         }
 
         public bool validateAppointmetDay(DateOnly date, int userId)
@@ -91,9 +96,37 @@ namespace Services.Appointments
       
         }
 
-        public bool validateCancelAppointmet(int appointmentId)
+        public bool validateCancelAppointmet(Appointment appointmentToCancel)
         {
-            return true;
+
+            bool canCancell = true;
+          
+            DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly todayTime = TimeOnly.FromDateTime(DateTime.Now);
+            int daysBetween = (int)(appointmentToCancel.Date.DayNumber - todayDate.DayNumber);
+
+            if (daysBetween == 0)
+            {
+                canCancell = false;
+
+            }else if (daysBetween == 1)
+            {
+
+                TimeSpan differenceTimes = appointmentToCancel.Time - todayTime;
+                double hoursBetween = differenceTimes.TotalHours;
+
+                if (hoursBetween <= 24)
+                {
+                    canCancell =  false;
+                }
+
+            }else if (daysBetween < 0 )
+            {
+                canCancell = false;
+            }
+         
+
+            return canCancell;
         }
     }
 }

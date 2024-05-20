@@ -15,13 +15,13 @@ namespace Services.Appointments
 
         public List<Appointment> getAppointmentsByUser(int userId);
 
-        public bool validateCancelAppointmet(int appointmentId);
+        public bool validateCancelAppointmet(Appointment appointment);
 
         public bool validateAppointmetDay(DateOnly date, int userId);
 
         public Appointment addAppointment(Appointment appointment);
 
-        public void DeleteAppointment(int appointmentId);
+        public void DeleteAppointment(int appointment);
 
 
     }
