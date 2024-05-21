@@ -14,7 +14,7 @@ namespace ClinicAPI
                 new Claim("Name", user.Name),
                 new Claim("Email", user.Email),
                 new Claim("Role", role),
-         
+                new Claim("Id", user.Id.ToString())
 
 
     };
