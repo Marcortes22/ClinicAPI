@@ -54,7 +54,9 @@ builder.Services.AddAuthentication(cfg => {
         ),
         ValidateIssuer = false,
         ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+        NameClaimType = "Name",
+        RoleClaimType = "Role"
     };
 });
 
