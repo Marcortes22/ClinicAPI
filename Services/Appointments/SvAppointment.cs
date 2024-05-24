@@ -75,6 +75,27 @@ namespace Services.Appointments
            // return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
         }
 
+        public Appointment UpdateAppointment(Appointment appointment, int appointmentId)
+        {
+            Appointment appointmentToUpdate = myDbContext.appointments.Find(appointmentId);
+
+            if (appointmentToUpdate != null)
+            {
+                appointmentToUpdate.Date = appointment.Date;
+                appointmentToUpdate.Time = appointment.Time;
+                appointmentToUpdate.Status = appointment.Status;
+                appointmentToUpdate.Status = appointment.Status;
+                appointmentToUpdate.userId = appointment.userId;
+                appointmentToUpdate.clinicBranchId = appointment.clinicBranchId;
+                appointmentToUpdate.appointmentTypeId = appointment.appointmentTypeId;
+                myDbContext.appointments.Update(appointmentToUpdate);
+                myDbContext.SaveChanges();
+
+            }
+            return appointment;
+        }
+
+
         public  List<Appointment> getAppointmentsByUser(int userId)
         {
             //  return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();

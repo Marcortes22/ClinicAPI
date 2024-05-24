@@ -23,6 +23,8 @@ namespace Services.Appointments
 
         public void DeleteAppointment(int appointment);
 
+        public Appointment UpdateAppointment(Appointment appointment, int appointmentId);
+
 
     }
 }

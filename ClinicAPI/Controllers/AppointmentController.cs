@@ -49,6 +49,22 @@ namespace ClinicAPI.Controllers
            
         }
 
+        [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN")]
+        public Appointment Put([FromBody] Appointment appointment, int id)
+        {
+            return _svAppointmet.UpdateAppointment(new Appointment
+            {
+                Id = appointment.Id,
+                Date = appointment.Date,
+                Time = appointment.Time,
+                Status = appointment.Status,
+                userId = appointment.userId,
+                clinicBranchId = appointment.clinicBranchId,
+                appointmentTypeId = appointment.appointmentTypeId
+            },id); ;
+        }
+
         [HttpDelete("{appointmentId}")]
         public void Cancel(int appointmentId)
         {
