@@ -9,6 +9,7 @@ using Services.Roles;
 using Services.UserRoles;
 using Services.Appointments;
 using Services.AppointmentTypes;
+using Services.sendMails;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +21,7 @@ builder.Services.AddScoped<ISvUserRoles, SvUserRoles>();
 builder.Services.AddScoped<ISvClinicBranches, SvClinicBranches>();
 builder.Services.AddScoped<ISvAppointmet, SvAppointment>();
 builder.Services.AddScoped<ISvAppointmentType, SvAppointmentType>();
+builder.Services.AddScoped<ISvEmailSender, SvEmailSender>();
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(x =>

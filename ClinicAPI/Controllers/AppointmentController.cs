@@ -1,9 +1,11 @@
 ﻿using Entities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Appointments;
-using Services.ClinicBranches;
+using Services.sendMails;
+using Services.Users;
 
 namespace ClinicAPI.Controllers
 {
@@ -15,13 +17,18 @@ namespace ClinicAPI.Controllers
     {
 
         private  ISvAppointmet _svAppointmet;
-        public AppointmentController(ISvAppointmet svAppointmet)
+        private  ISvUsers _svUser;
+        private  ISvEmailSender _svEmail;
+        public AppointmentController(ISvAppointmet svAppointmet, ISvUsers svUser,ISvEmailSender svEmail)
         {
             _svAppointmet = svAppointmet;
-        }
+            _svEmail = svEmail;
+             _svUser = svUser;
+
+    }
 
 
-        [HttpGet]
+    [HttpGet]
         [Authorize(Roles = "ADMIN")]
         public IEnumerable<Appointment> GetAllAppointments()
         {
@@ -43,10 +50,14 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPost("register")]
-        public Appointment Register([FromBody] Appointment appointment)
+        public Appointment Post([FromBody] Appointment appointment)
         {
-            return _svAppointmet.addAppointment(appointment);
-           
+            Appointment appointmentCreated =  _svAppointmet.addAppointment(appointment);
+            User userToConfirm = _svUser.GetUserById(appointmentCreated.userId);
+            //string emailBody = $"{userToConfirm.Name}, you have an appointment scheduled.\nDay: {appointmentCreated.Date}\nHour: {appointmentCreated.Time}";
+
+            _svEmail.SendEmail( userToConfirm, appointmentCreated);
+            return appointmentCreated;
         }
 
         [HttpPut("{id}")]
