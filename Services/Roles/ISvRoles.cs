@@ -12,5 +12,7 @@ namespace Services.Roles
         public List<Role> GetAllRoles();
 
         public Role addRole(Role role);
+
+        public Role getRoleByName(string name);
     }
 }

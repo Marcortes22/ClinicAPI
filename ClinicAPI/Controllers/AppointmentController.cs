@@ -54,8 +54,7 @@ namespace ClinicAPI.Controllers
         {
             Appointment appointmentCreated =  _svAppointmet.addAppointment(appointment);
             User userToConfirm = _svUser.GetUserById(appointmentCreated.userId);
-            //string emailBody = $"{userToConfirm.Name}, you have an appointment scheduled.\nDay: {appointmentCreated.Date}\nHour: {appointmentCreated.Time}";
-
+     
             _svEmail.SendEmail( userToConfirm, appointmentCreated);
             return appointmentCreated;
         }

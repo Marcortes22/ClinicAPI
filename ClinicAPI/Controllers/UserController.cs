@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Entities;
+using DTOs;
 using Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Services.UserRoles;
+using Services.Roles;
+using Services.ExtensionMethods;
 
 namespace ClinicAPI.Controllers
 {
@@ -15,28 +18,40 @@ namespace ClinicAPI.Controllers
     public class UserController : ControllerBase
     {
         private ISvUserRoles _svUserRole;
+        private ISvRoles _svRoles;
         private ISvUsers _svUser;
-        public UserController(ISvUsers svUser, ISvUserRoles svUserRole)
+        private ISvExtensionMethods _extensionMethods;
+        public UserController(ISvUsers svUser, ISvUserRoles svUserRole, ISvExtensionMethods extensionMethods, ISvRoles svRoles)
         {
             _svUser = svUser;
             _svUserRole = svUserRole;
-    }
+            _extensionMethods = extensionMethods;
+            _svRoles = svRoles;
+        }
 
         [Authorize]
         [Authorize(Roles = "ADMIN")]
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IActionResult Get()
         {
-            return _svUser.GetAllUsers();
+            return Ok(_svUser.GetAllUsers());
         }
 
 
         [HttpGet("{id}/roles")]
         [Authorize]
         [Authorize(Roles = "ADMIN")]
-        public IEnumerable<User> GetRoles(int id)
+        public IActionResult GetRoles(int id)
         {
-            return _svUser.getUserRoles(id);
+            var userRoles = _svUser.getUserRoles(id);
+
+            if(userRoles == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            return Ok(userRoles);
+           
         }
 
 
@@ -65,22 +80,32 @@ namespace ClinicAPI.Controllers
             }
             else
             {
-                return Ok("Unregistered");
+                return Unauthorized("Unregistered");
             }
 
         }
 
 
         [HttpPost("register")]
-        public User Register([FromBody] User user)
+        public IActionResult Register([FromBody] UserDto userDto)
         {
-            _svUser.AddUser(user);
-            _svUserRole.AddUserRole(new UserRole
+            User newUser = _extensionMethods.toUser(userDto);
+            User UserAdded = _svUser.AddUser(newUser);
+            Role defaultRole = _svRoles.getRoleByName("USER");
+
+            if (UserAdded != null)
             {
-                UserId = user.Id,
-                RoleId = 2
-            });
-            return user;
+                _svUserRole.AddUserRole(new UserRole
+                {
+                    UserId = UserAdded.Id,
+                    RoleId = defaultRole.Id
+                }) ;
+               return Ok(UserAdded);
+            }
+            else
+            {
+               return BadRequest("User can't be added");
+            }
 
         }
 

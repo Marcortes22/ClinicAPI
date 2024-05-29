@@ -28,5 +28,10 @@ namespace Services.Roles
         {
             return myDbContext.roles.ToList();
         }
+
+        public Role getRoleByName(string name)
+        {
+            return myDbContext.roles.SingleOrDefault(x=>x.Name == name);
+        }
     }
 }
