@@ -14,5 +14,8 @@ namespace DTOs
         public string CellPhone { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
+
+        public List<ClinicBrancDto>? clinicBranch { get; set; } 
+        public List<UserDto>? users { get; set; } 
     }
 }

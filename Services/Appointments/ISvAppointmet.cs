@@ -21,7 +21,7 @@ namespace Services.Appointments
 
         public Appointment addAppointment(Appointment appointment);
 
-        public void DeleteAppointment(int appointment);
+        public void DeleteAppointment(Appointment appointmentToCancel);
 
         public Appointment UpdateAppointment(Appointment appointment, int appointmentId);
 

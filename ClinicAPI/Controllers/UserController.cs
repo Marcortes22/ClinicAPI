@@ -99,7 +99,7 @@ namespace ClinicAPI.Controllers
                 {
                     UserId = UserAdded.Id,
                     RoleId = defaultRole.Id
-                }) ;
+                })  ;
                return Ok(UserAdded);
             }
             else

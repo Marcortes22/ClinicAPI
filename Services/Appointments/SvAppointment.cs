@@ -20,18 +20,10 @@ namespace Services.Appointments
         }
         public Appointment addAppointment(Appointment appointment)
         {
-            if (validateAppointmetDay(appointment.Date, appointment.userId))
-            {
 
                 myDbContext.appointments.Add(appointment);
                 myDbContext.SaveChanges();
                 return appointment;
-            }
-            else
-            {
-                throw new ArgumentException("Cant have twice appointments at the same day");
-            }
-
 
         }
 
@@ -64,15 +56,15 @@ namespace Services.Appointments
 
         public List<Appointment> getAllAppointments()
         {
-            //return myDbContext.appointments.Include(x=> x.user).Include(y=> y.appointmentType).Include(x=> x.clinicBranch).ToList();
-            return myDbContext.appointments.ToList();
+            return myDbContext.appointments.Include(x=> x.user).Include(y=> y.appointmentType).Include(x=> x.clinicBranch).ToList();
+           // return myDbContext.appointments.ToList();
              
         }
 
         public Appointment getAppointmentById(int appointmentId)
         {
-             return myDbContext.appointments.Find(appointmentId);
-           // return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
+             //return myDbContext.appointments.Find(appointmentId);
+            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).SingleOrDefault(x=>x.Id == appointmentId);
         }
 
         public Appointment UpdateAppointment(Appointment appointment, int appointmentId)
@@ -98,8 +90,8 @@ namespace Services.Appointments
 
         public  List<Appointment> getAppointmentsByUser(int userId)
         {
-            //  return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
-            return myDbContext.appointments.Where(x => x.userId == userId).ToList();
+             return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x => x.userId == userId).ToList();
+            //return myDbContext.appointments.Where(x => x.userId == userId).ToList();
         }
 
         public bool validateAppointmetDay(DateOnly date, int userId)
