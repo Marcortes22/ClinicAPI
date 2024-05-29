@@ -108,13 +108,13 @@ namespace ClinicAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest("Appointment was not created");
+                    return BadRequest(new { message = "Appointment was not created" });
                 }
 
             }
             else
             {
-                return BadRequest("You cant get two appointments at the same day");
+                return BadRequest(new { message = "You cant get two appointments at the same day" });
             }
         
      
@@ -147,7 +147,7 @@ namespace ClinicAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest("Appointment was not updated");
+                    return BadRequest(new { message = "Appointment was not updated" });
                 }
             }
             else
@@ -175,13 +175,13 @@ namespace ClinicAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest("Appointments just cancel 24 hours before");
+                    return BadRequest(new { message = "Appointments just cancel 24 hours before" });
                 }
 
             }
             else
             {
-                return NotFound("Appointment to cancel did not found");
+                return NotFound(new { message = "Appointment to cancel did not found" });
             }
            
 
