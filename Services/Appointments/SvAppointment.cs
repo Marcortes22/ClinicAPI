@@ -27,30 +27,11 @@ namespace Services.Appointments
 
         }
 
-        public void DeleteAppointment(int appointmentId)
+        public void DeleteAppointment(Appointment appointmentToCancel)
         {
-           
-                Appointment appointmentToCancel = myDbContext.appointments.Find(appointmentId);
-
-                if (appointmentToCancel != null)
-                {
-                    if (validateCancelAppointmet(appointmentToCancel)) {
                         appointmentToCancel.Status = false;
                         myDbContext.appointments.Update(appointmentToCancel);
-                        myDbContext.SaveChanges();
-                      }
-                    else
-                      {
-                      throw new ArgumentException("Appointments just cancel 24 hours before");
-                      }
-
-                }
-                else
-                {
-                    throw new ArgumentException("Appointment does'nt found");
-                }
-
-            
+                        myDbContext.SaveChanges();  
            
         }
 

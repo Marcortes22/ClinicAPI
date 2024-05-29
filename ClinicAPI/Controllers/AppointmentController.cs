@@ -87,9 +87,10 @@ namespace ClinicAPI.Controllers
                 var appointmentToCreate = _svAppointmet.addAppointment(appointment);
                 if (appointmentToCreate != null)
                 {
-                 User userToConfirm = _svUser.GetUserById(appointmentToCreate.userId);
-                 _svEmail.SendEmail(userToConfirm, appointmentToCreate); //enviar tambien el appointment type
-                  return Ok(appointmentToCreate);
+                // User userToConfirm = _svUser.GetUserById(appointmentToCreate.userId);
+                  AppointmentDto appointmentInformation = _extensionMethods.ToAppointmentDto(_svAppointmet.getAppointmentById(appointmentToCreate.Id));
+                 _svEmail.SendEmail(appointmentInformation); //enviar tambien el appointment type
+                  return Ok(appointmentInformation);
                 }
                 else
                 {

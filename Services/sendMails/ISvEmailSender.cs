@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Services.sendMails
 {
     public interface ISvEmailSender
     {
-        void SendEmail(User userTo, Appointment appointment);
+        void SendEmail(AppointmentDto appointmentInformation);
     }
 }
