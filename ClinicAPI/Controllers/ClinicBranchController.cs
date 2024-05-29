@@ -9,8 +9,8 @@ namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
-   // [Authorize(Roles = "ADMIN")]
+    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     public class ClinicBranchController : ControllerBase
     {
         private ISvClinicBranches _svClinicBranch;
@@ -20,16 +20,34 @@ namespace ClinicAPI.Controllers
         }
 
         [HttpGet]
-        public List<ClinicBranch> Get()
+        public IActionResult Get()
         {
-            return _svClinicBranch.getAllClinicBranches();
+            var branches =  _svClinicBranch.getAllClinicBranches();
+
+            if(branches != null)
+            {
+                return Ok(branches);
+            }
+            else
+            {
+                return NotFound(branches);
+            }
         }
 
 
         [HttpPost]
-        public ClinicBranch Register([FromBody] ClinicBranch branch)
+        public IActionResult Post([FromBody] ClinicBranch branch)
         {
-            return _svClinicBranch.AddClinicBranch(branch);
+            var branchAdded =  _svClinicBranch.AddClinicBranch(branch);
+
+            if (branchAdded != null)
+            {
+                return Ok(branchAdded);
+            }
+            else
+            {
+                return BadRequest("Branch was not added");
+            }
 
         }
     }

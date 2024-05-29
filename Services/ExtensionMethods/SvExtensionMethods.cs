@@ -84,6 +84,7 @@ namespace Services.ExtensionMethods
                 UserName = userDto.UserName,
                 Password = userDto.Password,
                 clinicId = userDto.clinicId,
+                roles = new List<Role>()
                
             };
             if(userDto.role != null)
@@ -162,8 +163,11 @@ namespace Services.ExtensionMethods
                 CellPhone = clinic.CellPhone,
                 Address = clinic.Address,
                 Email = clinic.Email,
+                users = new List<UserDto>(),
+                clinicBranch = new List<ClinicBrancDto>()
 
             }; 
+
 
             if(clinic.users != null)
             {

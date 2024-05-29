@@ -1,7 +1,9 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.AppointmentTypes;
+using Services.ExtensionMethods;
 
 namespace ClinicAPI.Controllers
 {
@@ -10,21 +12,50 @@ namespace ClinicAPI.Controllers
     public class AppointTypeController : ControllerBase
     {
         private ISvAppointmentType _svAppointmetType;
-        public AppointTypeController(ISvAppointmentType svAppointmetType)
+        private ISvExtensionMethods _extensionMethods;
+
+        public AppointTypeController(ISvAppointmentType svAppointmetType, ISvExtensionMethods extensionMethods)
         {
             _svAppointmetType = svAppointmetType;
+            _extensionMethods = extensionMethods;
         }
 
         [HttpGet]
-        public IEnumerable<AppointmentType> Get()
+        public IActionResult Get()
         {
-            return _svAppointmetType.getAllAppointmentTypes();
+            var appointmentTypes = _svAppointmetType.getAllAppointmentTypes();
+           
+
+            if (appointmentTypes != null)
+            {
+                List<AppointmentTypeDto> appointmentTypeDto = new List<AppointmentTypeDto>();
+
+                foreach (var appointmentType in appointmentTypes)
+                {
+                    appointmentTypeDto.Add(_extensionMethods.ToAppointmenTypetDto(appointmentType));
+                }
+
+                return Ok(appointmentTypeDto);
+            }
+            else
+            {
+              return  NotFound("There are not appointmets types yet");
+            }
         }
 
         [HttpPost]
-        public AppointmentType AddAppointment([FromBody] AppointmentType type)
+        public IActionResult AddAppointment([FromBody] AppointmentType type)
         {
-            return _svAppointmetType.addAppointmentType(type);
+            var typeAdded =  _svAppointmetType.addAppointmentType(type);
+
+            if(typeAdded != null)
+            {
+                return Ok(typeAdded);
+            }
+            else
+            {
+                return BadRequest("Appointment type was not added");
+            }
 
         }
     }

@@ -19,24 +19,39 @@ namespace ClinicAPI.Controllers
     {
 
         private  ISvAppointmet _svAppointmet;
-        private  ISvUsers _svUser;
         private  ISvEmailSender _svEmail;
         private ISvExtensionMethods _extensionMethods;
-        public AppointmentController(ISvAppointmet svAppointmet, ISvExtensionMethods extensionMethods, ISvUsers svUser,ISvEmailSender svEmail)
+        public AppointmentController(ISvAppointmet svAppointmet, ISvExtensionMethods extensionMethods,ISvEmailSender svEmail)
         {
             _svAppointmet = svAppointmet;
             _svEmail = svEmail;
-             _svUser = svUser;
             _extensionMethods = extensionMethods;
 
         }
 
 
-    [HttpGet]
+        [HttpGet]
         [Authorize(Roles = "ADMIN")]
-        public IEnumerable<Appointment> GetAllAppointments()
+        public IActionResult GetAllAppointments()
         {
-            return _svAppointmet.getAllAppointments();
+            var appointments = _svAppointmet.getAllAppointments();
+            List<AppointmentDto> appointmentDtoList = new List<AppointmentDto>();
+
+            if (appointments != null)
+            {
+
+                foreach (var appointment in appointments)
+                {
+                    appointmentDtoList.Add(_extensionMethods.ToAppointmentDto(appointment));
+                }
+
+                return Ok(appointmentDtoList);
+            }
+            else
+            {
+                return BadRequest("There are not appointments yet");
+            }
+            
         }
 
         [HttpGet("id/{AppointmentId}")]
@@ -79,7 +94,7 @@ namespace ClinicAPI.Controllers
         }
 
 
-        [HttpPost("register")]
+        [HttpPost]
         public IActionResult Post([FromBody] Appointment appointment)
         {
             if (_svAppointmet.validateAppointmetDay(appointment.Date, appointment.userId))
@@ -87,10 +102,9 @@ namespace ClinicAPI.Controllers
                 var appointmentToCreate = _svAppointmet.addAppointment(appointment);
                 if (appointmentToCreate != null)
                 {
-                // User userToConfirm = _svUser.GetUserById(appointmentToCreate.userId);
                   AppointmentDto appointmentInformation = _extensionMethods.ToAppointmentDto(_svAppointmet.getAppointmentById(appointmentToCreate.Id));
-                 _svEmail.SendEmail(appointmentInformation); //enviar tambien el appointment type
-                  return Ok(appointmentInformation);
+                 _svEmail.SendEmail(appointmentInformation); 
+                  return Ok(appointmentToCreate);
                 }
                 else
                 {

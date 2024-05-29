@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Roles;
+using System.Data;
 
 
 namespace ClinicAPI.Controllers
@@ -21,15 +22,34 @@ namespace ClinicAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Role> get()
+        public IActionResult get()
         {
-            return _svRole.GetAllRoles();
+            var roles =  _svRole.GetAllRoles();
+
+            if(roles != null)
+            {
+                return Ok(roles);
+            }
+            else
+            {
+                return BadRequest("There are not roles yet");
+            }
         }
 
         [HttpPost()]
-        public Role Register([FromBody] Role role)
+        public IActionResult Post([FromBody] Role role)
         {
-            return _svRole.addRole(role);
+            var newRole = _svRole.addRole(role);
+
+            if (newRole != null)
+            {
+                return Ok(newRole);
+            }
+            else
+            {
+                return BadRequest("Role was not added");
+            }
+
 
         }
     }

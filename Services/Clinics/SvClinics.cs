@@ -46,7 +46,12 @@ namespace Services.Clinics
                 clinictToUpdate.Email = clinic.Email;
                 myDbContext.clinics.Update(clinictToUpdate);
                 myDbContext.SaveChanges();
+                Console.WriteLine("aqui");
 
+            }
+            else
+            {
+              
             }
             return clinictToUpdate;
         }
