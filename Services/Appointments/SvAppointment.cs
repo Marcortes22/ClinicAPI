@@ -27,13 +27,6 @@ namespace Services.Appointments
 
         }
 
-        public void DeleteAppointment(Appointment appointmentToCancel)
-        {
-                        appointmentToCancel.Status = false;
-                        myDbContext.appointments.Update(appointmentToCancel);
-                        myDbContext.SaveChanges();  
-           
-        }
 
         public List<Appointment> getAllAppointments()
         {
@@ -121,6 +114,20 @@ namespace Services.Appointments
          
 
             return canCancell;
+        }
+
+        public void CancellAppointment(Appointment appointmentToCancel)
+        {
+            appointmentToCancel.Status = false;
+            myDbContext.appointments.Update(appointmentToCancel);
+            myDbContext.SaveChanges();
+        }
+
+        public void DeleteAppointment(Appointment appointmentToDelete)
+        {
+          
+            myDbContext.Remove(appointmentToDelete);
+            myDbContext.SaveChanges();
         }
     }
 }

@@ -12,7 +12,7 @@ using Services.MyDbContext;
 namespace Services.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240520195210_InitialCreate")]
+    [Migration("20240530022739_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

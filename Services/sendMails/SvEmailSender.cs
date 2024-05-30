@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Net;
 using Entities;
 using DTOs;
+using Services.Appointments;
 
 namespace Services.sendMails
 {
@@ -20,7 +21,7 @@ namespace Services.sendMails
             MailMessage message = new MailMessage(addressFrom, addressTo);
             message.Subject = "Appointment have been registered";
             message.IsBodyHtml = true;
-            message.Body  = $"HI  {appointmentInformation.user.Name} you have reserved new {appointmentInformation.appointmentType.Name} Appointment. Your appointment schedule is: {appointmentInformation.Date} {appointmentInformation.Time}";
+            message.Body  = $"HI  {appointmentInformation.user.Name} you have a new {appointmentInformation.appointmentType.Name} appointment reserved at the next branch {appointmentInformation.clinicBranch.Name}. Your appointment schedule is: {appointmentInformation.Date} {appointmentInformation.Time}";
             SmtpClient client = new SmtpClient("smtp.gmail.com");
             client.Port = 587;
             client.EnableSsl = true;

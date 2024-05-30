@@ -30,7 +30,7 @@ namespace Services.Migrations
         {
 
             migrationBuilder.Sql("INSERT INTO appointmentTypes (Name) VALUES ('General medicine')");
-            migrationBuilder.Sql("INSERT INTO appointmentTypes (Name) VALUES ('Dentistry')");
+            migrationBuilder.Sql("INSERT INTO appointmentTypes (Name) VALUES ('Dentist')");
             migrationBuilder.Sql("INSERT INTO appointmentTypes (Name) VALUES ('Pediatrics')");
             migrationBuilder.Sql("INSERT INTO appointmentTypes (Name) VALUES ('Neurology')");
 

@@ -190,6 +190,7 @@ namespace Services.Migrations
                 name: "IX_users_clinicId",
                 table: "users",
                 column: "clinicId");
+
             DataSeeder.SeedClinic(migrationBuilder);
             DataSeeder.SeedClinicBranches(migrationBuilder);
             DataSeeder.SeedRoles(migrationBuilder);

@@ -157,7 +157,7 @@ namespace ClinicAPI.Controllers
            
         }
 
-        [HttpDelete("{appointmentId}")]
+        [HttpDelete("cancell/{appointmentId}")]
         public IActionResult Cancel(int appointmentId)
         {
             var appointmentToCancel = _svAppointmet.getAppointmentById(appointmentId);
@@ -169,7 +169,7 @@ namespace ClinicAPI.Controllers
 
                 if (canCancelAppointment)
                 {
-                    _svAppointmet.DeleteAppointment(appointmentToCancel);
+                    _svAppointmet.CancellAppointment(appointmentToCancel);
 
                     return Ok("Appointment canceled");
                 }
@@ -184,6 +184,27 @@ namespace ClinicAPI.Controllers
                 return NotFound(new { message = "Appointment to cancel did not found" });
             }
            
+
+        }
+
+
+        [HttpDelete("{appointmentId}")]
+        public IActionResult Delete(int appointmentId)
+        {
+            var appointmentToDelete = _svAppointmet.getAppointmentById(appointmentId);
+
+            if (appointmentToDelete != null)
+            {
+
+               _svAppointmet.DeleteAppointment(appointmentToDelete);
+                return Ok();
+
+            }
+            else
+            {
+                return NotFound(new { message = "Appointment to delete did not found" });
+            }
+
 
         }
     }
