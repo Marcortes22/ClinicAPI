@@ -94,7 +94,7 @@ namespace ClinicAPI.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult Post([FromBody] Appointment appointment)
         {
             if (_svAppointmet.validateAppointmetDay(appointment.Date, appointment.userId))
