@@ -187,7 +187,7 @@ namespace ClinicAPI.Controllers
 
         }
 
-
+        [Authorize(Roles = "ADMIN")]
         [HttpDelete("{appointmentId}")]
         public IActionResult Delete(int appointmentId)
         {
