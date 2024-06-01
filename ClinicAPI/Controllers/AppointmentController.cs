@@ -89,38 +89,33 @@ namespace ClinicAPI.Controllers
             }
             else
             {
-                return BadRequest("This user does not have appointments yet");
+                return BadRequest(new {message = "This user does not have appointments yet"});
             }
         }
 
-
         [HttpPost("register")]
-        public IActionResult Post([FromBody] Appointment appointment)
+        public async Task<IActionResult> Post([FromBody] Appointment appointment)
         {
             if (_svAppointmet.validateAppointmetDay(appointment.Date, appointment.userId))
             {
                 var appointmentToCreate = _svAppointmet.addAppointment(appointment);
                 if (appointmentToCreate != null)
                 {
-                  AppointmentDto appointmentInformation = _extensionMethods.ToAppointmentDto(_svAppointmet.getAppointmentById(appointmentToCreate.Id));
-                 _svEmail.SendEmail(appointmentInformation); 
-                  return Ok(appointmentToCreate);
+                    AppointmentDto appointmentInformation = _extensionMethods.ToAppointmentDto(_svAppointmet.getAppointmentById(appointmentToCreate.Id));
+                    _svEmail.SendEmail(appointmentInformation); // Llamada asíncrona
+                    return Ok(appointmentToCreate);
                 }
                 else
                 {
                     return BadRequest(new { message = "Appointment was not created" });
                 }
-
             }
             else
             {
-                return BadRequest(new { message = "You cant get two appointments at the same day" });
+                return BadRequest(new { message = "You can't get two appointments on the same day" });
             }
-        
-     
-            
-            
         }
+
 
         [HttpPut("{id}")]
         [Authorize(Roles = "ADMIN")]

@@ -10,6 +10,6 @@ namespace Services.sendMails
 {
     public interface ISvEmailSender
     {
-        void SendEmail(AppointmentDto appointmentInformation);
+        Task SendEmail(AppointmentDto appointmentInformation);
     }
 }
