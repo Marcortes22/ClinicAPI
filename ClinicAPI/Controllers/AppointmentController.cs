@@ -186,13 +186,14 @@ namespace ClinicAPI.Controllers
         [HttpDelete("{appointmentId}")]
         public IActionResult Delete(int appointmentId)
         {
+
             var appointmentToDelete = _svAppointmet.getAppointmentById(appointmentId);
 
             if (appointmentToDelete != null)
             {
 
                _svAppointmet.DeleteAppointment(appointmentToDelete);
-                return Ok();
+                return Ok(new { message = "Appointment have been deleted" });
 
             }
             else
