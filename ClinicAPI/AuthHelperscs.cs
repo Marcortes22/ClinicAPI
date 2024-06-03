@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 
@@ -14,8 +15,8 @@ namespace ClinicAPI
                 new Claim("Name", user.Name),
                 new Claim("Email", user.Email),
                 new Claim("Role", role),
-                new Claim("Id", user.Id.ToString())
-
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Phone", user.CellPhone)
 
     };
             var jwtToken = new JwtSecurityToken(
