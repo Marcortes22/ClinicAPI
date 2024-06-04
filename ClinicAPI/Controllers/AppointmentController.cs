@@ -165,7 +165,7 @@ namespace ClinicAPI.Controllers
                 {
                     _svAppointmet.CancellAppointment(appointmentToCancel);
 
-                    return Ok("Appointment canceled");
+                    return Ok(new { message = "Appointment canceled" });
                 }
                 else
                 {
