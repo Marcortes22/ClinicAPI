@@ -35,6 +35,15 @@ namespace Services.Appointments
              
         }
 
+        public List<Appointment> getAllTodayAppointments()
+        {
+            DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
+
+            return myDbContext.appointments.Include(x => x.user).Include(y => y.appointmentType).Include(x => x.clinicBranch).Where(x=> x.Date == todayDate).ToList();
+            // return myDbContext.appointments.ToList();
+
+        }
+
         public Appointment getAppointmentById(int appointmentId)
         {
              //return myDbContext.appointments.Find(appointmentId);

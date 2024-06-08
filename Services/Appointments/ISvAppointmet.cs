@@ -11,6 +11,8 @@ namespace Services.Appointments
     {
         public List<Appointment> getAllAppointments();
 
+        public List<Appointment> getAllTodayAppointments();
+
         public Appointment getAppointmentById(int appointmentId);
 
         public List<Appointment> getAppointmentsByUser(int userId);

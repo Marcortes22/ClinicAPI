@@ -13,7 +13,7 @@ namespace ClinicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     
     public class AppointmentController : ControllerBase
     {
@@ -52,6 +52,30 @@ namespace ClinicAPI.Controllers
                 return BadRequest("There are not appointments yet");
             }
             
+        }
+
+        [HttpGet("today")]
+       // [Authorize(Roles = "ADMIN")]
+        public IActionResult GetTodayAppointments()
+        {
+            var appointments = _svAppointmet.getAllAppointments();
+            List<AppointmentDto> appointmentDtoList = new List<AppointmentDto>();
+
+            if (appointments != null)
+            {
+
+                foreach (var appointment in appointments)
+                {
+                    appointmentDtoList.Add(_extensionMethods.ToAppointmentDto(appointment));
+                }
+
+                return Ok(appointmentDtoList);
+            }
+            else
+            {
+                return BadRequest("There are not appointments yet");
+            }
+
         }
 
         [HttpGet("id/{AppointmentId}")]
