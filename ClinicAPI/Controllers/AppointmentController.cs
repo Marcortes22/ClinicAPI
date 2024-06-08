@@ -142,7 +142,6 @@ namespace ClinicAPI.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "ADMIN")]
         public IActionResult Put([FromBody] Appointment appointment, int id)
         {
             Appointment appointmentToUpdate = _svAppointmet.getAppointmentById(appointment.Id);
@@ -171,7 +170,7 @@ namespace ClinicAPI.Controllers
             }
             else
             {
-                return BadRequest("Appointment to update did not found");
+                return BadRequest(new { message = "Appointment to update did not found" });
             }
            
         }
@@ -190,7 +189,7 @@ namespace ClinicAPI.Controllers
                 {
                     _svAppointmet.CancellAppointment(appointmentToCancel);
 
-                    return Ok("Appointment canceled");
+                    return Ok(new { message = "Appointment canceled" });
                 }
                 else
                 {
